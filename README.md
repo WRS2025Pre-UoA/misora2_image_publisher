@@ -1,7 +1,7 @@
 # misora2_image_publisher
-## 実装目的
+## 内容
  - 各タスクのプログラム検証時にsensor_msgs::msg::Image型で画像を受け取ることが可能になる
-## 実行方法
+## 実行コード
  - ワークスペース下で
 ~~~bash!
 colcon build
@@ -10,4 +10,4 @@ ros2 run misora2_imiage publisher image_publisher --ros-args -p path:=<publish�
 ~~~
  - pathは必須
  - topicのデフォルトは /image
- - colorのデフォルトは mono
+ - colorのデフォルトは color
