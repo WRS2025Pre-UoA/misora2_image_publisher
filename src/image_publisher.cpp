@@ -28,7 +28,7 @@ class ImagePublisher : public rclcpp::Node
     {
         this->declare_parameter("path","");
         this->declare_parameter("topic","/image");
-        this->declare_parameter("format","mono");
+        this->declare_parameter("format","color");
 
         path = this->get_parameter("path").as_string();
         topic = this->get_parameter("topic").as_string();
