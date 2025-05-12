@@ -26,8 +26,8 @@ class ImagePublisher : public rclcpp::Node
 
     ImagePublisher() : Node("image_publisher")
     {
-        this->declare_parameter("path","");
-        this->declare_parameter("topic","/image");
+        this->declare_parameter("path","src/misora2_image_publisher/photo1.png");
+        this->declare_parameter("topic","/image_raw");
         this->declare_parameter("format","color");
 
         path = this->get_parameter("path").as_string();

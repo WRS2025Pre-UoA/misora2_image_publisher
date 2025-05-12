@@ -9,5 +9,5 @@ source install/setup.bash
 ros2 run misora2_imiage_publisher image_publisher --ros-args -p path:=<publishしたい画像のpath> -p topic:=<トピック名の指定> -p color:=<色のフォーマット指定>
 ~~~
  - pathは必須
- - topicのデフォルトは /image
+ - topicのデフォルトは /image_raw
  - colorのデフォルトは color
