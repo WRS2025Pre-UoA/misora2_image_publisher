@@ -55,15 +55,19 @@ class ImagePublisher : public rclcpp::Node
         else if(f == "mono"){
             image = cv::imread(path.string(), cv::IMREAD_GRAYSCALE); // 色画像として読み込む
         }
+        else if(f == "black"){
+            image = cv::Mat::zeros(480,640,CV_8UC1);
+            RCLCPP_INFO_STREAM(this->get_logger(), "Created black image channels: " << image.channels() ); // ここで1が出るはず
+        }
         else throw std::runtime_error("Error: The format does not exist: " + f);
 
-        image = cv::imread(path.string(), (f == "color") ? 1 : 0); // 色画像またはモノクロ画像として読み込む
+        // image = cv::imread(path.string(), (f == "color") ? 1 : 0); // 色画像またはモノクロ画像として読み込む
 
         if (image.empty()) {
             throw std::runtime_error("Error: Unable to load image: " + path.string());
         }
         cv::resize(image, image, cv::Size(640, 480));
-        
+        RCLCPP_INFO_STREAM(this->get_logger(),"Send: image channels = " << image.channels() );
         publisher_->publish(image);
     }
 
