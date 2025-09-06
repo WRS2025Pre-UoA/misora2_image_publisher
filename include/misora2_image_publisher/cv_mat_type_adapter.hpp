@@ -4,7 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include "rclcpp/rclcpp.hpp"
 #include <sensor_msgs/msg/image.hpp>
-#include <cv_bridge/cv_bridge.h>
+#include <cv_bridge/cv_bridge.hpp>
 #include <rclcpp/type_adapter.hpp>
 
 template<>
@@ -23,7 +23,7 @@ struct rclcpp::TypeAdapter<cv::Mat, sensor_msgs::msg::Image>
     }
     else if (source.channels() == 3)
     {
-      encoding = "bgr8";  // カラー画像
+      encoding = "rgb8";  // カラー画像
     }
     destination = *(cv_bridge::CvImage(std_msgs::msg::Header(), encoding, source).toImageMsg());
   }

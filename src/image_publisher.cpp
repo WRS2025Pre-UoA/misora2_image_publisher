@@ -51,6 +51,7 @@ class ImagePublisher : public rclcpp::Node
         }
         if(f == "color"){
             image = cv::imread(path.string(), cv::IMREAD_COLOR); // 色画像として読み込む
+            cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
         }
         else if(f == "mono"){
             image = cv::imread(path.string(), cv::IMREAD_GRAYSCALE); // 色画像として読み込む
