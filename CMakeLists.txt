@@ -12,7 +12,7 @@ find_package(rclcpp_components REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(OpenCV 4.8 REQUIRED COMPONENTS core highgui imgproc)
+find_package(OpenCV 4.5 REQUIRED COMPONENTS core highgui imgproc)
 
 
 include_directories(
@@ -20,9 +20,18 @@ include_directories(
 )
 
 add_executable(image_publisher src/image_publisher.cpp)
+add_executable(image_publisher_compressed src/image_publisher_compressed.cpp)
 
 ament_target_dependencies(
   image_publisher
+  rclcpp
+  sensor_msgs
+  cv_bridge
+  OpenCV
+)
+
+ament_target_dependencies(
+  image_publisher_compressed
   rclcpp
   sensor_msgs
   cv_bridge
@@ -39,6 +48,7 @@ endif()
 
 install(TARGETS
   image_publisher
+  image_publisher_compressed
   DESTINATION lib/${PROJECT_NAME})
 
 
