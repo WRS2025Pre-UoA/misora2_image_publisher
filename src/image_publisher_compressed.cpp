@@ -56,9 +56,21 @@ private:
             throw std::runtime_error("Error: The file does not exist: " + path.string());
         }
 
-        if (f == "color" || f == "compressed") {
-            image = cv::imread(path.string(), cv::IMREAD_COLOR);
-            cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
+        if (f == "color" || f == "compressed" || f == "yuv422_yuy2") {
+            cv::Mat rgb_image = cv::imread(path.string(), cv::IMREAD_COLOR);
+            if (rgb_image.empty()) {
+                throw std::runtime_error("Error: Unable to load image: " + path.string());
+            }
+            cv::resize(rgb_image, rgb_image, cv::Size(640, 480));
+
+            if (f == "color" || f == "compressed") {
+                // RGBをROS標準フォーマットで送信
+                cv::cvtColor(rgb_image, image, cv::COLOR_BGR2RGB);
+            }
+            // else if (f == "yuv422_yuy2") {
+            //     // RGB -> YUV422 YUY2変換
+            //     cv::cvtColor(rgb_image, image, cv::COLOR_BGR2YUV_YUYV);
+            // }
         }
         else if (f == "mono") {
             image = cv::imread(path.string(), cv::IMREAD_GRAYSCALE);
@@ -89,6 +101,21 @@ private:
             RCLCPP_INFO_STREAM(this->get_logger(), "Send: compressed image size = " << msg.data.size());
             compressed_publisher_->publish(msg);
         }
+        // else if (f == "yuv422_yuy2") {
+        //     // sensor_msgs::msg::Imageとして送信
+        //     // encodingフィールドは"yuv422_yuy2"
+        //     auto msg = sensor_msgs::msg::Image();
+        //     msg.header.stamp = this->now();
+        //     msg.height = image.rows;
+        //     msg.width = image.cols;
+        //     msg.encoding = "yuv422_yuy2";
+        //     msg.is_bigendian = false;
+        //     msg.step = static_cast<uint32_t>(image.cols * 2); // 2 bytes per pixel in YUY2
+        //     msg.data.assign(image.datastart, image.dataend);
+
+        //     RCLCPP_INFO_STREAM(this->get_logger(), "Send: yuv422_yuy2 image size = " << msg.data.size());
+        //     publisher_->publish(msg);
+        // }
         else {
             RCLCPP_INFO_STREAM(this->get_logger(), "Send: image channels = " << image.channels());
             publisher_->publish(image);

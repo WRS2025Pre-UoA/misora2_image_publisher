@@ -67,7 +67,7 @@ class ImagePublisher : public rclcpp::Node
         if (image.empty()) {
             throw std::runtime_error("Error: Unable to load image: " + path.string());
         }
-        cv::resize(image, image, cv::Size(640, 480));
+        // cv::resize(image, image, cv::Size(640, 480));
         RCLCPP_INFO_STREAM(this->get_logger(),"Send: image channels = " << image.channels() );
         publisher_->publish(image);
     }
